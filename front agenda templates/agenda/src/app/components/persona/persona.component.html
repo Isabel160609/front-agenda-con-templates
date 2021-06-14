@@ -1,0 +1,134 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <form #personaForms= "ngForm" (ngSubmit)="addPersona(personaForms)">
+                    
+                    <input type="hidden" name="_id" [(ngModel)]="personaService.selectedPersona._id" class="error">
+                    
+                    <div class="form-group">
+                        <input type="text" name = "nombre" class="form-control" placeholder= "Nombre" pattern="[^0-9]{3,}" required [(ngModel)]= "personaService.selectedPersona.nombre"  #nombre="ngModel">
+                        <small class="error" *ngIf="nombre.touched && nombre.errors?.pattern">
+                        Introduce al menos 3 letras</small>
+                        <small class="error" *ngIf="nombre.touched && nombre.errors?.required"
+                        >El nombre es obligatorio</small>
+                    </div>
+                   
+                    <div class="form-group">
+                        <input type="text" name = "apellidos" class="form-control" placeholder= "Apellidos" pattern="[^0-9]{3,}" required [(ngModel)]= "personaService.selectedPersona.apellidos"  #apellidos="ngModel">
+                        <small class="error" *ngIf="apellidos.touched && apellidos.errors?.pattern">
+                        Introduce al menos 3 letras</small>
+                        <small class="error" *ngIf="apellidos.touched && apellidos.errors?.required"
+                        >los apellidos es obligatorio</small>
+                    </div>
+                   
+                    <div class="form-group">
+                        <input type="number" name = "edad" class="form-control" placeholder= "Edad" max = 125 min = 0 required [(ngModel)]= "personaService.selectedPersona.edad" #edad="ngModel">
+                        <small class="error" *ngIf="edad.touched && edad.errors?.max">
+                            La edad es de 125 años como maximo</small>
+                            <small class="error" *ngIf="edad.touched && edad.errors?.min">
+                                La edad es de 0 años como minimo</small>
+                            <small class="error" *ngIf="edad.touched && edad.errors?.required"
+                            >los edad es obligatorio</small>
+                    </div>
+                    <div class="form-group">
+  
+                        <input type="text" name = "dni" class="form-control" placeholder= "dni" pattern="(\d{8})([A-Z]{1})" required [(ngModel)]= "personaService.selectedPersona.dni" #dni="ngModel">
+                        <small class="error" *ngIf="dni.touched && dni.errors?.pattern">
+                            Introduce  8 numeros y 1 letra</small>
+                            <small class="error" *ngIf="dni.touched && dni.errors?.required"
+                            >los dni es obligatorio</small>
+                    </div>
+                    <div class="form-group">
+                        <input type="date" name = "cumple" class="form-control" placeholder= "Fecha de nacimiento" [(ngModel)]= "personaService.selectedPersona.cumple">
+                    </div>
+
+                    <!-- <mat-form-field class="example-container">
+                        <mat-label>Fecha de Nacimiento</mat-label>
+                        <input matInput [matDatepicker]="picker"  class="form-control" name = "cumple"[(ngModel)]= "personaService.selectedPersona.cumple" >
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #picker></mat-datepicker>
+
+                    </mat-form-field> -->
+                    <div class="form-group">
+                        <input type="text" name = "color" class="form-control" placeholder= "Color Favorito" pattern="[^0-9]{3,}" required [(ngModel)]= "personaService.selectedPersona.color"  #color="ngModel">
+                        <small class="error" *ngIf="color.touched && color.errors?.pattern">
+                        Introduce al menos 3 letras</small>
+                        <small class="error" *ngIf="color.touched && color.errors?.required"
+                        >El nombre es obligatorio</small>
+                    </div>
+           
+                    
+                    <div class="form-grup">
+                        
+                        <select name="sexo" class="form-control" [(ngModel)]= "personaService.selectedPersona.sexo">
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                            <option value="otro">Otro</option>
+                            <option value="no especificado">No Especificado</option>
+                        </select>
+    
+                    </div>
+                    <button class="btn btn-primary mr-6 " (click)= "resetForm(personaForms)">
+                        Clean
+                    </button>
+                    <button class="btn btn-secondary mr-6">
+                        Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <Table c class = "table table-striped" >
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Apellidos
+                    </th>
+                    <th>
+                        edad
+                    </th>
+                    <th>
+                        DNI
+                    </th>
+                    <th>
+                        Fecha de Nacimiento
+                    </th>
+                    <th>
+                        Color Favorito
+                    </th>
+                    <th>
+                        Sexo
+                    </th>
+                    <th>
+                        Operaciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor= "let persona of personaService.personas">
+                    <td>{{persona.nombre}}</td>
+                    <td>{{persona.apellidos}}</td>
+                    <td>{{persona.edad}}</td>
+                    <td>{{persona.dni}}</td>
+                    <td>{{persona.cumple | date:'dd-MM-yyyy'}}</td>
+                    <td>{{persona.color}}</td>
+                    <td>{{persona.sexo}}</td>
+                    <td>
+                        <button class= "btn btn-secondary btn-sm" (click)= "editPersona(persona)">
+                            <i class="material-icons">edit</i>
+                        </button>
+                        <button class= "btn btn-danger btn-sm" (click)="deletePersona(persona._id)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+        </Table>
+    </div>
+</div>
